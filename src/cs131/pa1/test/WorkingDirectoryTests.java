@@ -80,7 +80,7 @@ public class WorkingDirectoryTests {
 	
 	@Test
 	public void testMultiMoveDirectory(){
-		testInput("cd dir1" + sep +"dir2" + sep +"dir3" + sep +"dir4\npwd\ncd ..\n pwd \n cd ..\n pwd \n cd ..\n pwd \n cd ..\n pwd\nexit");
+		testInput("cd dir1" + sep +"dir2" + sep +"dir3" + sep +"dir4\n pwd\n cd ..\n pwd \n cd ..\n pwd \n cd ..\n pwd \n cd ..\n pwd\nexit");
 		SequentialREPL.main(null);
 		String originalLocation = System.getProperty("user.dir");
 		

@@ -40,6 +40,7 @@ public class RedirectionTests {
 		AllSequentialTests.destroyFile("trial-file.txt");
 	}
 	
+	
 	@Test
 	public void testDirectoryShiftedRedirection() throws FileNotFoundException{
 		testInput("cd dir1\nls > folder-contents.txt\nexit");

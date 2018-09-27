@@ -4,23 +4,25 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import cs131.pa1.filter.Message;
+
 public class Cd extends SequentialFilter{
+	
+	private String directoryName;
 	
 	public Cd(String directoryName) {
 		input = new LinkedList<>();
 		output = new LinkedList<>();
-		input.add(directoryName);
+		this.directoryName = directoryName;
 		
 	}
 	
 	public String processLine(String line) {
-		line = setDirectory(line);
-		
-		return line;
+		return null;
 		
 	}
-	public static String setDirectory(String directoryName) {
-		
+	public void process() {
+		String directoryName = this.directoryName;
 		if(directoryName.equals("..")) {
 			String[] directNames = SequentialREPL.currentWorkingDirectory.split("/");
 			int lastSlashIndex = SequentialREPL.currentWorkingDirectory.lastIndexOf("/");
@@ -31,18 +33,24 @@ public class Cd extends SequentialFilter{
 				directory+= directNames[i] + "/";
 				i++;
 			}
+			int lastSlash = directory.lastIndexOf("/");
+			directory = directory.substring(0,lastSlash);
 			SequentialREPL.currentWorkingDirectory = directory;
+			
 		}else if (directoryName.equals(".")) {
-			return SequentialREPL.currentWorkingDirectory + "/.";
+			
 			
 		}else{
-			
-			SequentialREPL.currentWorkingDirectory+= "/" + directoryName;
-			
+			File file = new File(SequentialREPL.currentWorkingDirectory+"/"+directoryName);
+			if(file.exists()) {
+				SequentialREPL.currentWorkingDirectory += "/" + directoryName;
+			}else {
+				System.out.print(Message.DIRECTORY_NOT_FOUND.with_parameter("cd "+ directoryName));
+			}
 			
 			
 		}
-		return SequentialREPL.currentWorkingDirectory;
+		
 		
 		
 	}

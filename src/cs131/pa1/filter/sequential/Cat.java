@@ -12,15 +12,16 @@ public class Cat extends SequentialFilter{
 		this.fileName = fileName;
 		input = new LinkedList<>();
 		output = new LinkedList<>();
-		input.add(fileName);
+		this.fileName = fileName;
 	}
 
 	@Override
-	protected String processLine(String line) {
+	public void process() {
 		// TODO Auto-generated method stub
-		StringBuilder str = new StringBuilder();
+//		StringBuilder str = new StringBuilder();
 		File chosenFile = null;
-		line = line.trim(); //remove whitespace
+		Scanner filereader = new Scanner(System.in);
+//		line = line.trim(); //remove whitespace
 		File currentDir = new File(System.getProperty("user.dir"));
 		File[] filesList = currentDir.listFiles();
         for(File f : filesList){
@@ -28,32 +29,36 @@ public class Cat extends SequentialFilter{
                 continue;
             }
             else if(f.isFile()){
-                if (line.equals(f.getName())){
+                if (fileName.equals(f.getName())){
                 	chosenFile = f;
                 	break;
                 }
             }
         }
         if (chosenFile != null) {
-        	Scanner filereader;
+        	
 			try {
 				filereader = new Scanner(chosenFile);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return null;
 			}
         	while(filereader.hasNextLine()) {
-        		str.append(filereader.nextLine());
-        		str.append("\n");
+        		output.add(filereader.nextLine());
         	}
         	filereader.close();
         }
-        if (next != null) {
-        	return str.toString();
+//        if (next != null) {
+//        	return str.toString();
         }
-        System.out.println(str.toString());
-        return null;
+//        System.out.println(str.toString());
+//        return null;
+
+	@Override
+	protected String processLine(String line) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	}
 
-}
+

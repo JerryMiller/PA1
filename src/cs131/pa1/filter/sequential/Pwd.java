@@ -6,17 +6,16 @@ import java.util.LinkedList;
 
 public class Pwd extends SequentialFilter{
 	
-	
-	
 	@Override
-	public String processLine(String line) {
-		input = new LinkedList<>();
-		output = new LinkedList<>();
-		
-		
+	public void process() {
 		String directory = "";
-		directory = SequentialREPL.currentWorkingDirectory;//new java.io.File(".").getCanonicalPath();
-		
-		return directory;
+		directory = SequentialREPL.currentWorkingDirectory;
+		output.add(directory);
+	}
+
+	@Override
+	protected String processLine(String line) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
