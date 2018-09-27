@@ -22,7 +22,7 @@ public class Cat extends SequentialFilter{
 		File chosenFile = null;
 		Scanner filereader = new Scanner(System.in);
 //		line = line.trim(); //remove whitespace
-		File currentDir = new File(System.getProperty("user.dir"));
+		File currentDir = new File(SequentialREPL.currentWorkingDirectory);
 		File[] filesList = currentDir.listFiles();
         for(File f : filesList){
             if(f.isDirectory()) {

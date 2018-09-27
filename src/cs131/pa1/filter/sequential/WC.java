@@ -8,67 +8,48 @@ import java.util.Scanner;
 
 public class WC extends SequentialFilter {
 	
-	String fileName;
-	public WC(String file) {
-		fileName = file;
+	String toGetCount;
+	int charCount = 0;
+	int wordCount = 0;
+	int lineCount = 0;
+	public WC() {
 		input = new LinkedList<>();
 		output = new LinkedList<>();
-		input.add(file);
+	}
+	public void process(){
+		if(input.isEmpty()) {
+			output.add("0 0 0");
+		}
+		while (!input.isEmpty()){
+			String line = input.poll();
+			String processedLine = processLine(line);
+			if (processedLine != null){
+				output.add(processedLine);
+			}
+		}	
 	}
 	@Override
 	protected String processLine(String line) {
 		// TODO Auto-generated method stub
-		int charCount = 0;
-		int wordCount = 0;
-		int lineCount = 0;
-		
-		File chosenFile = null;
-		line = line.trim(); //remove whitespace
-		File currentDir = new File(".");
-		File[] filesList = currentDir.listFiles();
-        for(File f : filesList){
-            if(f.isDirectory()) {
-                continue;
-            }
-            else if(f.isFile()){
-                if (line.equals(f.getName())){
-                	chosenFile = f;
-                	break;
-                }
-            }
-        }
-        Scanner filereader = null;
-        if (chosenFile != null) {
-        	try {
-				filereader = new Scanner(chosenFile);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	while (filereader.hasNextLine()) {
-        		String fileLine = filereader.nextLine();
-        		String[] words = line.split(" ");
-        		for(int i = 0; i < words.length; i++) {
-        			String word = words[i];
-        			if(word.equals(" ") || word.equals("")) {
-        				continue;
-        			}
-        			charCount+=word.length();
-        		}
-        		wordCount+=words.length;
-        		lineCount+=1;
-        		
-        		
-        	}
-        }
-
-		String finalCount = lineCount + " " + wordCount + " " + charCount;
-		if (next != null) {
-			filereader.close();
-			return finalCount;
-
+		if(line.equals(" ")) {
+			charCount+=1;
+			lineCount+=1;
+			return null;
 		}
-		System.out.println(finalCount);
+		if(line.equals("")) {
+			lineCount+=1;
+			return null;
+		}
+		String[] words = line.split(" ");
+		for(int i = 0; i < words.length; i++) {
+			String word = words[i];
+			charCount+=word.length();
+		}
+		wordCount+=words.length;
+		lineCount+=1;
+		if (input.isEmpty()) {
+			return  lineCount + " " + wordCount + " " + charCount;
+		}
 		return null;
 	}
 

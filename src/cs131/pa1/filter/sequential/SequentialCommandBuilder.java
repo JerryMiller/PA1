@@ -25,6 +25,13 @@ public class SequentialCommandBuilder {
 //		}
 		List<SequentialFilter> allFilters = new ArrayList<SequentialFilter>();
 		SequentialFilter printer = new Printer();
+		String str = originalLine[originalLine.length-1];
+		if(str.contains(">")) {
+			int index = str.indexOf(">");
+			String newCommand = str.substring(0, index);
+			originalLine[originalLine.length-1] = newCommand;
+			printer = new Printer(str.substring(index + 1, str.length()).trim());
+		}
 		allFilters.add(0,printer);
 		for(int i = originalLine.length-1; i>=0; i--) {
 			
@@ -98,18 +105,18 @@ public class SequentialCommandBuilder {
 			}
 			else if(filters[i].equals("cd")) {
 				filter = new Cd(filters[i+1]);
-				
 				i++;
-				
 			}
 			else if(filters[i].equals("wc")) {
-				filter = new WC(filters[i+1]);
-				filter.input.add(filters[i]);
+				filter = new WC();
 				i++;
 			}else if(filters[i].equals("grep")){
 				filter = new grep(filters[i+1]);
 				i++;
 				
+			}else if(filters[i].equals("uniq")) {
+				filter = new Unique();
+				i++;
 			}
 			else {
 				System.out.println("Command not valid");
