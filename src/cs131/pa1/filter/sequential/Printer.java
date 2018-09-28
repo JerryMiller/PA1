@@ -24,6 +24,7 @@ public class Printer extends SequentialFilter {
 				processLine(line);
 			}else {
 				String finalOutput = line;
+//				output.add(finalOutput);
 				System.out.println(finalOutput);
 			}
 		

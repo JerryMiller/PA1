@@ -3,7 +3,9 @@ package cs131.pa1.filter.sequential;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.Validator;
+import cs131.pa1.filter.Message;
+
+//import javax.xml.bind.Validator;
 
 public class SequentialCommandBuilder {
 	
@@ -36,12 +38,31 @@ public class SequentialCommandBuilder {
 		for(int i = originalLine.length-1; i>=0; i--) {
 			
 			SequentialFilter filter = constructFilterFromSubCommand(originalLine[i]);
+			if(filter == null) {
+				return null;
+			}else {
 			allFilters.add(0, filter);
+			}
 		
 		}
 		
 		
 		linkFilters(allFilters);
+		
+//		for(SequentialFilter f : allFilters) {
+////			if(f instanceof grep && f.input.isEmpty()) {
+////				grep j = (grep) f;
+////				System.out.print(Message.REQUIRES_INPUT.with_parameter("grep " + j.getWord()));
+////				return null;
+////         }else 
+////			if( f instanceof WC && f.input.isEmpty()) {
+////				System.out.print(Message.REQUIRES_INPUT.with_parameter("wc"));
+////				return null;
+//				if( f instanceof Unique && f.input.isEmpty()) {
+//				System.out.print(Message.REQUIRES_INPUT.with_parameter("uniq"));
+//				return null;
+//			}
+//		}
 		
 		return allFilters;
 	}
@@ -92,11 +113,26 @@ public class SequentialCommandBuilder {
 		for(int i = 0; i<filters.length; i++) {
 			
 			if(filters[i].equals("cat")){
-				filter = new Cat(filters[i+1]);
-//				filter.input.add(filters[i]);
+				if(filters.length==1) {
+					System.out.print(Message.REQUIRES_PARAMETER.with_parameter(filters[i]));
+					return null;
+					
+				}else if(filters.length>2) {
+					
+					String[] fullString = new String[filters.length-1];
+					for(int j = 1; j<filters.length; j++) {
+						fullString[j-1] = filters[j];
+						i++;
+					}
+					filter = new Cat(fullString);
+				}else {				
+					filter = new Cat(filters[i+1]);
+					i++;
+				}
 				i++;
-			}
-			else if(filters[i].equals("pwd")) {
+				
+			
+			}else if(filters[i].equals("pwd")) {
 				filter = new Pwd();
 			}
 			else if(filters[i].equals("ls")) {
@@ -104,23 +140,38 @@ public class SequentialCommandBuilder {
 //				System.out.print( filter.processLine(""));
 			}
 			else if(filters[i].equals("cd")) {
+				if(filters.length<2) {
+					System.out.print(Message.REQUIRES_PARAMETER.with_parameter("cd"));
+				}else {
 				filter = new Cd(filters[i+1]);
 				i++;
+				}
 			}
 			else if(filters[i].equals("wc")) {
 				filter = new WC();
 				i++;
 			}else if(filters[i].equals("grep")){
+				if(filters.length==1) {
+					System.out.print(Message.REQUIRES_PARAMETER.with_parameter(filters[i]));
+					return null;
+					
+				}else {
+				
 				filter = new grep(filters[i+1]);
 				i++;
+				}
 				
 			}else if(filters[i].equals("uniq")) {
 				filter = new Unique();
 				i++;
 			}
 			else {
-				System.out.println("Command not valid");
-				System.exit(0);
+				String s="";
+				for(int j=0; j<filters.length; j++) {
+					s += filters[j]+" ";
+				}
+				System.out.print(Message.COMMAND_NOT_FOUND.with_parameter(s));
+				return null;
 			}
 			
 		}

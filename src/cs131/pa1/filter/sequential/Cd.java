@@ -16,7 +16,9 @@ public class Cd extends SequentialFilter{
 		this.directoryName = directoryName;
 		
 	}
-	
+	public String getName() {
+		return this.directoryName;
+	}
 	public String processLine(String line) {
 		return null;
 		

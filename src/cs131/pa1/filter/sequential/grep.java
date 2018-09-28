@@ -4,23 +4,26 @@ import java.util.LinkedList;
 
 public class grep extends SequentialFilter{
 	
-	private String word;
+	public static String word;
 
 	public grep(String grepWord) {
-		input = new LinkedList<>();
-		output = new LinkedList<>();
+//		input = new LinkedList<>();
+//		output = new LinkedList<>();
 		this.word = grepWord;
 		
+	}
+	public String getWord() {
+		return this.word;
 	}
 	
 	@Override
 	protected String processLine(String line) {
-		while(!input.isEmpty()) {
-			String sentence = input.poll();
-			if(sentence.contains(this.word)) {
-				output.add(sentence);
+		
+//			String sentence = input.poll();
+			if(line.contains(this.word)) {
+				output.add(line);
 			}
-		}
+		
 		return null;
 	}
 
