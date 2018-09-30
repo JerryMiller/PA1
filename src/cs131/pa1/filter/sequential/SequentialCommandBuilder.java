@@ -169,7 +169,7 @@ public class SequentialCommandBuilder {
 					
 				}else {
 				
-				filter = new grep(filters[i+1]);
+				filter = new Grep(filters[i+1]);
 				i++;
 				}
 				

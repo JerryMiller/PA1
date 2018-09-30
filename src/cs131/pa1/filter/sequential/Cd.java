@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import cs131.pa1.filter.Filter;
 import cs131.pa1.filter.Message;
 
 public class Cd extends SequentialFilter{
@@ -26,16 +27,16 @@ public class Cd extends SequentialFilter{
 	public void process() {
 		String directoryName = this.directoryName;
 		if(directoryName.equals("..")) {
-			String[] directNames = SequentialREPL.currentWorkingDirectory.split("/");
-			int lastSlashIndex = SequentialREPL.currentWorkingDirectory.lastIndexOf("/");
+			String[] directNames = SequentialREPL.currentWorkingDirectory.split(Filter.FILE_SEPARATOR);
+			int lastSlashIndex = SequentialREPL.currentWorkingDirectory.lastIndexOf(Filter.FILE_SEPARATOR);
 			int prevDirectory = directNames.length-1;
 			String directory = "";
 			int i = 0;
 			while(i < prevDirectory) {
-				directory+= directNames[i] + "/";
+				directory+= directNames[i] + Filter.FILE_SEPARATOR;
 				i++;
 			}
-			int lastSlash = directory.lastIndexOf("/");
+			int lastSlash = directory.lastIndexOf(Filter.FILE_SEPARATOR);
 			directory = directory.substring(0,lastSlash);
 			SequentialREPL.currentWorkingDirectory = directory;
 			
@@ -43,9 +44,9 @@ public class Cd extends SequentialFilter{
 			
 			
 		}else{
-			File file = new File(SequentialREPL.currentWorkingDirectory+"/"+directoryName);
+			File file = new File(SequentialREPL.currentWorkingDirectory+Filter.FILE_SEPARATOR+directoryName);
 			if(file.exists()) {
-				SequentialREPL.currentWorkingDirectory += "/" + directoryName;
+				SequentialREPL.currentWorkingDirectory += Filter.FILE_SEPARATOR + directoryName;
 			}else {
 				System.out.print(Message.DIRECTORY_NOT_FOUND.with_parameter("cd "+ directoryName));
 			}

@@ -2,11 +2,11 @@ package cs131.pa1.filter.sequential;
 
 import java.util.LinkedList;
 
-public class grep extends SequentialFilter{
+public class Grep extends SequentialFilter{
 	
 	public static String word;
 
-	public grep(String grepWord) {
+	public Grep(String grepWord) {
 //		input = new LinkedList<>();
 //		output = new LinkedList<>();
 		this.word = grepWord;
