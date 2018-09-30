@@ -4,6 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
+
+import cs131.pa1.filter.Message;
 
 public class Printer extends SequentialFilter {
 	String fileName = null;
@@ -49,6 +52,10 @@ public class Printer extends SequentialFilter {
 	@Override
 	protected String processLine(String line) {
 		// TODO Auto-generated method stub
+		if(!fileName.contains(".") || line == null) {
+			System.out.print(Message.REQUIRES_PARAMETER.with_parameter(">"));
+			input = new LinkedList<String>();
+		}
 		File file = new File(SequentialREPL.currentWorkingDirectory);
 		File newFile = new File(file, fileName);
 		if(!newFile.exists()) {

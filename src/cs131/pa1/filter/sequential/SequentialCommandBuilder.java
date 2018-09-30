@@ -31,8 +31,20 @@ public class SequentialCommandBuilder {
 		if(str.contains(">")) {
 			int index = str.indexOf(">");
 			String newCommand = str.substring(0, index);
+			if(newCommand == null || newCommand.equals("")) {
+				System.out.print(Message.REQUIRES_INPUT.with_parameter("> " + str.substring(index + 1, str.length()).trim()));
+				return null;
+			}
 			originalLine[originalLine.length-1] = newCommand;
 			printer = new Printer(str.substring(index + 1, str.length()).trim());
+		}
+		for(String st : originalLine) {
+			if (st.contains(">")) {
+				int index = st.indexOf(">");
+				String newCommand = st.substring(0, index);
+				System.out.print(Message.CANNOT_HAVE_OUTPUT.with_parameter("> " + st.substring(index + 1, st.length()).trim()));
+				return null;
+			}
 		}
 		allFilters.add(0,printer);
 		for(int i = originalLine.length-1; i>=0; i--) {
